@@ -29,7 +29,7 @@
 ##     Date:      2007-2017
 ##
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.5)
 
 PROJECT(qpOASES CXX)
 SET(PACKAGE_NAME "qpOASES")
@@ -68,7 +68,7 @@ IF( NOT CMAKE_BUILD_TYPE )
 ENDIF( NOT CMAKE_BUILD_TYPE )
 
 option(BUILD_SHARED_LIBS "If ON, build shared library instead of static" OFF)
-option(QPOASES_BUILD_EXAMPLES "Build examples." ON)
+option(QPOASES_BUILD_EXAMPLES "Build examples." OFF)
 option(QPOASES_AVOID_LA_NAMING_CONFLICTS "If ON, avoid to re-defined symbols that conflict with Blas/Lapack provided functions." OFF)
 
 IF(BUILD_SHARED_LIBS AND WIN32)
@@ -115,7 +115,6 @@ if("${isSystemDir}" STREQUAL "-1")
 endif("${isSystemDir}" STREQUAL "-1")
 
 
-
 ############################################################
 #################### build and install #####################
 ############################################################
@@ -125,6 +124,9 @@ FILE(GLOB SRC src/*.cpp)
 
 # library
 ADD_LIBRARY(qpOASES ${SRC})
+
+TARGET_COMPILE_OPTIONS(qpOASES PRIVATE -Wno-format-truncation)
+
 INSTALL(TARGETS qpOASES
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
